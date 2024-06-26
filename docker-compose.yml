@@ -1,0 +1,26 @@
+version: '5.5'
+
+services:
+  frontend:
+    build:
+      context: ./clays-task
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./todo_project
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./todo_project:/app
+      - sqlite_data:/app/db
+    environment:
+      - DEBUG=1  # Set to 0 for production
+
+volumes:
+  sqlite_data:
